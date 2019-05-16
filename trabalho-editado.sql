@@ -1,6 +1,6 @@
-Alunos: Num_curso, RA, Nome, Data_nasc
-Disciplinas: Cod, Nome, Cred
-Cursos: Num, Nome
+--Alunos: Num_curso, RA, Nome, Data_nasc
+--Disciplinas: Cod, Nome, Cred
+--Cursos: Num, Nome
 
 --cd é a média do aluno
 
@@ -103,7 +103,7 @@ insert into alunos_grad values(1024,0.9);
 insert into alunos_grad values(1025,7.0);
 insert into alunos_grad values(1026,5.0);
 insert into alunos_grad values(1027,4.0);
-insert into alunos_grad values(1028,10);
+insert into alunos_grad values(1028,10.0);
 
 
 --10 alunos pós graduação
@@ -132,6 +132,7 @@ insert into alunos_pos_grad values(2009,'Teemo');
 --30 disciplinas
 --create table disciplinas (nome_disc varchar2(30), cod_disc number, cred number);
 
+--disciplinas Eng
 insert into disciplinas values ('ALGORÍTMOS E PROGRAMAÇÃO DE COMPUTADORES A', 0001, 04);
 insert into disciplinas values ('ALGORÍTMOS E PROGRAMAÇÃO DE COMPUTADORES B', 0002, 046;
 insert into disciplinas values ('ANTROPOLOGIA TEOLÓGICA A', 0003, 02);
@@ -162,4 +163,75 @@ insert into disciplinas values ('LABORATÓRIO DE FÍSICA A', 0027, 02);
 insert into disciplinas values ('LABORATÓRIO DE FÍSICA B', 0028, 02);
 insert into disciplinas values ('PARADIGMAS DE PROGRAMAÇÃO A', 0029, 04);
 insert into disciplinas values ('PARADIGMAS DE PROGRAMAÇÃO B', 0030, 04);
-    
+--20 Disciplinas ADM
+insert into disciplinas values ('FILOSOFIA', 0031, 04);
+insert into disciplinas values ('ORGANIZAÇÃO, ESTRUTURAS E SISTEMAS DE GESTÃO', 0032, 02);
+insert into disciplinas values ('MATEMÁTICA APLICADA', 0033, 06);
+insert into disciplinas values ('ADMINISTRAÇÃO DE INFORMAÇÕES GERENCIAIS', 0034, 06);
+insert into disciplinas values ('ESTATÍSTICA ECONÔMICA', 0035, 06);
+insert into disciplinas values ('INTRODUÇÃO À TEORIA MICROECONÔMICA', 0036, 06);
+insert into disciplinas values ('CONTABILIDADE GERAL', 0037, 04);
+insert into disciplinas values ('ADMINISTRAÇÃO FINANCEIRA', 0038, 04);
+insert into disciplinas values ('ÉTICA E RESPONSABILIDADE SOCIAL NAS EMPRESAS', 0039, 04);
+insert into disciplinas values ('ADMINISTRAÇÃO DA PRODUÇÃO I', 0040, 06);
+insert into disciplinas values ('ADMINISTRAÇÃO DA PRODUÇÃO II', 0041, 06);
+insert into disciplinas values ('GERENCIAMENTO DE CUSTOS', 0042, 06);
+insert into disciplinas values ('GERENCIAMENTO TRIBUTÁRIO', 0043, 06);
+insert into disciplinas values ('MARKETING ESTRATÉGICO', 0044, 04);
+insert into disciplinas values ('GESTÃO DO COMPOSTO DE MARKETING', 0045, 04);
+insert into disciplinas values ('GESTÃO DO RELACIONAMENTO COM O CLIENTE', 0046, 04);
+insert into disciplinas values ('ADMINISTRAÇÃO DE VENDAS', 0047, 04);
+insert into disciplinas values ('ADMINISTRAÇÃO DA CADEIA DE SUPRIMENTOS', 0048, 04);
+insert into disciplinas values ('INTELIGÊNCIA COMPETITIVA', 0049, 04);
+insert into disciplinas values ('GERENCIAMENTO DE PROJETOS', 0050, 04);
+
+--20 Disciplinas Med
+insert into disciplinas values ('FISIOLOGIA I', 0051, 06);
+insert into disciplinas values ('FISIOLOGIA II', 0052, 06);
+insert into disciplinas values ('BIOQUÍMICA A', 0053, 06);
+insert into disciplinas values ('BIOQUÍMICA B', 0054, 06);
+insert into disciplinas values ('ANATOMIA A', 0055, 06);
+insert into disciplinas values ('ANATOMIA B', 0056, 06);
+insert into disciplinas values ('CORRELAÇÃO CLÍNICA: PSIQUIATRIA', 0057, 04);
+insert into disciplinas values ('CORRELAÇÃO CLÍNICA:NEUROLOGIA', 0058, 04);
+insert into disciplinas values ('ATIVIDADE INTEGRADORA A', 0059, 02);
+insert into disciplinas values ('ATIVIDADE INTEGRADORA B', 0060, 02);
+insert into disciplinas values ('HISTOLOGIA E EMBRIOLOGIA A', 0061, 06);
+insert into disciplinas values ('HISTOLOGIA E EMBRIOLOGIA B', 0062, 06);
+insert into disciplinas values ('CORRELAÇÃO CLÍNICA A', 0063, 04);
+insert into disciplinas values ('PRÁTICAS DE ENFERMAGEM', 0064, 02);
+insert into disciplinas values ('PATOLOGIA APLICADA À MEDICINA', 0065, 04);
+insert into disciplinas values ('ANATOMIA C', 0066, 06);
+insert into disciplinas values ('HISTOLOGIA E EMBRIOLOGIA C', 0067, 06);
+insert into disciplinas values ('FISIOLOGIA III', 0068, 06);
+insert into disciplinas values ('ANATOMIA PATOLÓGICA A', 0069, 06);
+insert into disciplinas values ('ANATOMIA PATOLÓGICA B', 0070, 06);
+
+--20 Disciplinas Direito
+insert into disciplinas values ('DIREITO CIVIL I', 0071, 06);
+insert into disciplinas values ('DIREITO CIVIL II', 0072, 06);
+insert into disciplinas values ('DIREITO CIVIL III', 0073, 06);
+insert into disciplinas values ('DIREITO PENAL I', 0074, 06);
+insert into disciplinas values ('DIREITO PENAL II', 0075, 06);
+insert into disciplinas values ('DIREITO PENAL III', 0076, 06);
+insert into disciplinas values ('PRÁTICA JURÍDICA I', 0077, 02);
+insert into disciplinas values ('PRÁTICA JURÍDICA II', 0078, 02);
+insert into disciplinas values ('SOCIOLOGIA DO DIREITO', 0079, 02);
+insert into disciplinas values ('FORMAÇÃO HISTÓRICA DO PENSAMENTO JURÍDICO I', 0080, 04);
+insert into disciplinas values ('FORMAÇÃO HISTÓRICA DO PENSAMENTO JURÍDICO II', 0081, 04);
+insert into disciplinas values ('DIREITOS HUMANOS I', 0082, 02);
+insert into disciplinas values ('DIREITOS HUMANOS II', 0083, 02);
+insert into disciplinas values ('PSICOLOGIA FORENSE', 0084, 02);
+insert into disciplinas values ('DIREITO ADMINISTRATIVO I', 0085, 04);
+insert into disciplinas values ('DIREITO ADMINISTRATIVO II', 0086, 04);
+insert into disciplinas values ('DIREITO DO TRABALHO I', 0087, 04);
+insert into disciplinas values ('DIREITO DO TRABALHO II', 0088, 04);
+insert into disciplinas values ('DIREITO COMERCIAL I', 0089, 04);
+insert into disciplinas values ('DIREITO COMERCIAL II', 0090, 04);
+
+--create table cursos (nome_curso varchar2(30), num_curso number);
+insert into cursos values ('Engenharia de Computação', 01);   
+insert into cursos values ('Administração', 02);
+insert into cursos values ('Medicina', 03);
+insert into cursos values ('Direito', 04);
+
