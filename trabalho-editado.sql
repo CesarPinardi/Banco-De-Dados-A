@@ -253,29 +253,33 @@ insert into alunos_pos_grad values(2009,'Teemo');
 
 
 
+set serveroutput on;
 
-
-create or replace procedure historico_escolar (ra number)
+create or replace procedure historico_escolar (ra number) as
 begin
 for ra_busca in (select * from alunos)
 	loop
-	if ra = ra_busca.ra then
-	for ra_busca_grad in (select * from alunos_grad)
+	if ra = ra_busca.ra and ra < 2000 then
+			for ra_busca_grad in (select * from alunos_grad)
+			loop
+				if ra = ra_busca_grad.ra_g then
+				dbms_output.put_line('Nome do aluno eh: '||ra_busca.nome_aluno);
+				dbms_output.put_line('Media do aluno eh: '||ra_busca_grad.cd);
+				end if;
+			end loop;
+	else if ra = ra_busca.ra and ra >= 2000 then
+		for ra_busca_pos_grad in (select * from alunos_pos_grad)
 		loop
-		if ra = ra_busca_grad then
-		dbms_output.put_line(ra_busca.nome_aluno,ra_busca_grad.cd);
-		end if;
+			if ra = ra_busca_pos_grad.ra_p_g then
+			dbms_output.put_line(ra_busca.nome_aluno);
+			dbms_output.put_line(ra_busca_pos_grad.orientador);
+			end if;
 		end loop;
-	else
-	for ra_busca_pos_grad in (select * from alunos_pos_grad)
-		loop
-		if ra = ra_busca_pos_grad then
-		dbms_output.put_line(ra_busca.nome_aluno,ra_busca_pos_grad.orientador);
 		end if;
-		end loop;
-		
 	end if;
 	end loop;
+end;
+/
 		
 
 
