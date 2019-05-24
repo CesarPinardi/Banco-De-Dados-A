@@ -1,0 +1,7 @@
+--create table cursam (ra_cursam number(4), cod_disc_cursam number, freq number);
+--create table pre_req (cod_disc_pre number, cod_pre_req number);
+create or replace trigger apto before insert on cursam for each row
+begin
+	for c_pre_req in (select * from pre_req where :new.cod_disc_cursam = cod_disc_pre) loop
+		for c_cursaram in (select * from cursaram where cod_disc_cursaram = c_pre_req.cod_pre_req and ra_cursaram = :new.ra_cursam) loop
+		
