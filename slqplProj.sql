@@ -47,15 +47,18 @@ alter table pre_req add constraint pk_pre_req primary key (cod_pre_req);
 --adicionando chaves estrangeiras dos relacionamentos
 alter table alunos add constraint fk_num_curso foreign key (num_curso) references cursos;
 
+alter table cursam add constraint pk_ra_cursam primary key (ra_cursam);
 alter table cursam add constraint fk_ra_cursam foreign key (ra_cursam) references alunos;
 alter table cursam add constraint fK_cod_disc_cursam foreign key (cod_disc_cursam) references disciplinas;
 
+--alter table cursaram add constraint pk_ra_cursaram primary key (ra_cursaram);
 alter table cursaram add constraint fk_ra_cursaram foreign key (ra_cursaram) references alunos;
 alter table cursaram add constraint fK_cod_disc_cursaram foreign key (cod_disc_cursaram) references disciplinas;
 
 alter table pre_req add constraint fK_cod_disc_pre foreign key (cod_disc_pre) references disciplinas;
 alter table pre_req add constraint fK_pre_req foreign key (cod_pre_req) references disciplinas;
 
+alter table grade add constraint pk_cod_disc_grade primary key (cod_disc_grade);
 alter table grade add constraint fK_cod_disc_grade foreign key (cod_disc_grade) references disciplinas;
 alter table grade add constraint fk_num_curso_grade foreign key (num_curso_grade) references cursos;
 
@@ -253,6 +256,7 @@ insert into alunos_pos_grad values(2009,'Teemo');
 
 insert into alunos_pos_grad values(2010,'Danke');
 
+
 --create table cursam (ra_cursam number(4), cod_disc_cursam number, freq number);
 insert into cursam values (1001,0002,80);
 insert into cursam values (1002,0002,75);
@@ -266,7 +270,9 @@ insert into cursam values (2003,0003,90);
 insert into cursam values (2004,0004,32);
 insert into cursam values (2005,0004,65);
 
---insert into cursam values (1010,0015,90);
+--insert into cursam values (1010,0016,90);
+--insert into cursam values (1012,0016,90);
+--insert into cursam values (1013,0016,90);
 
 --create table cursaram (ra_cursaram number(4), cod_disc_cursaram number, sem_ano date, nota number(3,1), freq number, status varchar2(1)); 
 insert into cursaram values (1001,0001,to_date('03/2018','dd/yyyy'),9.1,100,'a');
@@ -282,6 +288,8 @@ insert into cursaram values (2004,0002,to_date('01/2016','dd/yyyy'),5.4,50,'a');
 insert into cursaram values (2005,0003,to_date('03/2016','dd/yyyy'),9.2,55,'a');
 
 --insert into cursaram values (1010,0015,to_date('09/2016','dd/yyyy'),9.2,55,'a');
+--insert into cursaram values (1012,0015,to_date('09/2016','dd/yyyy'),8.8,75,'a');
+--insert into cursaram values (1013,0015,to_date('09/2016','dd/yyyy'),8.8,75,'r');
 
 --insert into cursaram values (2005,0004,to_date('08/2016','dd/yyyy'),9.2,55,'a'); --retira
 
@@ -310,42 +318,9 @@ insert into grade values (0052,30);
 
 set serveroutput on;
 
-create or replace procedure historico_escolar (ra number) as
-begin
-for ra_busca in (select * from alunos)
-for disc_busca in (select * from disciplinas)
-for c_cursam in (select * from cursam)
-for c_cursaram in (select * from cursaram)
-	loop
-	if ra = ra_busca.ra and ra < 2000 then
-			for ra_busca_grad in (select * from alunos_grad)
-			loop
-				if ra = ra_busca_grad.ra_g then
-				dbms_output.put_line('Nome do aluno eh: '||ra_busca.nome_aluno);
-				dbms_output.put_line('Media do aluno eh: '||ra_busca_grad.cd);
-					if ra = c_cursam.ra_cursam then
-						if c_cursam.
-					dbms_output.put_line('Curso em andamento: '||c_cursam.cod_disc_cursam);
-						if ra = c_cursaram.ra_cursaram then
-				
-				end if;
-			end loop;
-	else if ra = ra_busca.ra and ra >= 2000 then
-		for ra_busca_pos_grad in (select * from alunos_pos_grad)
-		loop
-			if ra = ra_busca_pos_grad.ra_p_g then
-			dbms_output.put_line(ra_busca.nome_aluno);
-			dbms_output.put_line(ra_busca_pos_grad.orientador);
-			end if;
-		end loop;
-		end if;
-	end if;
-	end loop;
-end;
-/
-
 --falta disciplinas para terminar o curso		
-create or replace procedure test (ra_in number) as 
+
+create or replace procedure historico_escolar (ra_in number) as 
 begin
 	for grad in (select * from alunos where ra_in = ra and ra_in < 2000) loop
 		dbms_output.put_line('Nome do Aluno: '||grad.nome_aluno);
@@ -392,45 +367,74 @@ begin
 			end loop;
 		end loop;
 	end loop;
+    
+    for var_al in (select * from alunos where ra_in = ra) loop
+        for var_gr in (select * from grade where num_curso_grade = var_al.num_curso) loop
+                for var_cursam in (select * from cursam where ra_in = ra_cursam) loop
+                  if var_gr.cod_disc_grade = var_cursam.cod_disc_cursam then
+                    dbms_output.put_line('');      --disciplina está na grade atual
+                  else
+                  for var_cursaram in (select * from cursaram where ra_in = ra_cursaram) loop
+                        if var_gr.cod_disc_grade = var_cursaram.cod_disc_cursaram then
+                             dbms_output.put_line('');      
+                        else
+
+                            for print in (select * from disciplinas where cod_disc = var_gr.cod_disc_grade) loop
+                            dbms_output.put_line('Disciplina a ser cursada: '|| print.nome_disc);    
+                            end loop;
+                            
+                        end if;
+                  end loop;
+                  end if;
+                end loop;
+        end loop;
+    end loop;
 end;
 /
 
---select disciplina_disp('kilo','calculo diferencial e integral c') from dual;
+--select disciplina_disp('beta','0002') from dual;
 --select disc_disp('Beta') from dual;
-create or replace function disciplina_disp (nome_in varchar2, disc_in varchar2) 
-return varchar2 as
-aprovado number := 0;
 
+--create table pre_req (cod_disc_pre number, cod_pre_req number);
+--create table cursaram (ra_cursaram number(4), cod_disc_cursaram number, sem_ano date, nota number(3,1), freq number, status varchar2(1)); 
+--create table alunos(ra number(4), nome_aluno varchar2(20), num_curso number, data_nasc date);
+create or replace function disciplina_disp (nome_in varchar2, disc_in number) --disc_in disciplina que o aluno vai entrar
+return varchar2 as
 begin
-	for aluno_disp in (select * from alunos where nome_in = nome_aluno) loop
-		for disc_disp in (select * from disciplinas where disc_in = nome_disc) loop --pegar codigo da disciplina
-			for cursaram_disp in (select * from cursaram where aluno_disp.ra = ra_cursaram) loop --verificando se realmente cursou a disciplina
-				for grad_disp in (select * from grade where aluno_disp.num_curso = num_curso_grade) loop --confirmação da grade
-					for pre_req_disp in (select * from pre_req where cod_disc_pre = disc_disp.cod_disc) loop
-						if pre_req_disp.cod_pre_req = cursaram_disp.cod_disc_cursaram then
-							aprovado := 1;
-						else
-							aprovado := 0;
-						end if;
-					end loop;
-				end loop;	
+	for d_aluno in (select * from alunos where nome_in = nome_aluno) loop
+		for d_cursaram in (select * from cursaram where d_aluno.ra = ra_cursaram) loop
+			for d_pre_req in (select * from pre_req where disc_in = cod_disc_pre) loop
+				if (d_cursaram.cod_disc_cursaram = d_pre_req.cod_pre_req and d_cursaram.freq >= 75 and d_cursaram.status = 'a') then
+					return 'positivo';
+				else
+					return 'negativo';
+				end if;
 			end loop;
 		end loop;
 	end loop;
-	
-	if aprovado = 1 then
-		return 'positivo';
-	else
-		return 'negativo';
-	end if;
 end;
 /
 
+--select * from pre_req where 1001 = cod_disc_pre;
 --raise_application_error(-20000, 'Advance cannot be less than zero or greater than one hundred.');
 
+--OK
+--create table pre_req (cod_disc_pre number, cod_pre_req number);
+--create table cursaram (ra_cursaram number(4), cod_disc_cursaram number, sem_ano date, nota number(3,1), freq number, status varchar2(1)); 
+--create table cursam (ra_cursam number(4), cod_disc_cursam number, freq number);
 create or replace trigger apto before insert on cursam for each row
 begin
-	
+	for a_cursaram in (select * from cursaram where :new.ra_cursam = ra_cursaram) loop
+		for a_pre_req in (select * from pre_req where :new.cod_disc_cursam = cod_disc_pre) loop
+			if (a_cursaram.cod_disc_cursaram = a_pre_req.cod_pre_req and a_cursaram.freq >= 75 and a_cursaram.status = 'a') then
+				a_cursaram.cod_disc_cursaram := a_cursaram.cod_disc_cursaram;
+			else
+				raise_application_error(-20000, 'Aluno não apto a realizar disciplina');
+			end if;
+		end loop;
+	end loop;
+end;
+/
 
 
 
@@ -441,20 +445,36 @@ begin
 	for c_atual in (select * from cursam where :new.cod_disc_cursaram = cod_disc_cursam) loop
 		if :new.cod_disc_cursaram = c_atual.cod_disc_cursam and :new.ra_cursaram = c_atual.ra_cursam then
 			delete from cursam where cod_disc_cursam = :new.cod_disc_cursaram and ra_cursam = :new.ra_cursaram;
+		else
+			raise_application_error(-20000, 'Aluno não fez curso');
 		end if;
 	end loop;
 end;
 /
 
+--OK
+--insert into cursaram values (1005,0001,to_date('03/2016','dd/yyyy'),5,100,'a');
+--insert into cursaram values (2001,0001,to_date('03/2016','dd/yyyy'),7.6,100,'a');
+--create table cursaram (ra_cursaram number(4), cod_disc_cursaram number, sem_ano date, nota number(3,1), freq number, status varchar2(1)); 
 create or replace trigger update_cd before insert on cursaram for each row
+declare
+qtd number;
+div number;
 begin
-	update alunos_grad
-		set cd = (cd + :new.nota)/2
+div := 0;
+qtd := 1;
+	div := :new.nota;
+	for cd_cursaram in (select * from cursaram where :new.ra_cursaram = ra_cursaram) loop
+		div := div + cd_cursaram.nota;
+		qtd := qtd + 1;
+	end loop;
+	update alunos_grad set 
+		cd = div/qtd
 		where ra_g = :new.ra_cursaram;
 	end;
 /
 
-insert into cursaram values (1000,0010,to_date('11/2018','dd/yyyy'),2.5,100,'a');
+insert into cursaram values (1005,0004,to_date('11/2018','dd/yyyy'),5,100,'a');
 
 
 
@@ -464,6 +484,39 @@ insert into cursaram values (1000,0010,to_date('11/2018','dd/yyyy'),2.5,100,'a')
 
 
 
+
+/////////////////////////////////////////////////////////
+
+
+create or replace trigger qqqq before insert on disciplinas for each row
+declare
+abc number;
+begin
+abc := 0;
+	if abc = 0 then
+		abc := 0;
+	else
+		:new.cod_disc := NULL;
+		dbms_output.put_line('deu pau');
+	end if;
+end;
+/
+
+insert into disciplinas values ('DIREITO COMERCIAL III', 0091, 04);
+
+create or replace function fff (arg number) return varchar2 as
+begin 
+	if arg >= 10 then
+		GOTO abc;
+	else
+		dbms_output.put_line('passei aqui');
+		
+	end if;
+	return 'OK';
+	<<abc>>
+	return 'JUMPED OK';
+end;
+/
 
 
 
