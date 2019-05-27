@@ -280,19 +280,24 @@ insert into cursam values (1015,0072,25);
 insert into cursam values (2001,0020,80);
 insert into cursam values (2002,0020,90);
 
-insert into cursam values (2003,0049,90);--adm
+insert into cursam values (2003,0049,90);
 
-insert into cursam values (2004,0063,32);--med
+insert into cursam values (2004,0063,32);
 
-insert into cursam values (2005,0081,65);--dir
+insert into cursam values (2005,0081,65);
 
 
 --create table cursaram (ra_cursaram number(4), cod_disc_cursaram number, sem_ano date, nota number(3,1), freq number, status varchar2(1)); 
 insert into cursaram values (1001,0001,to_date('03/2018','dd/yyyy'),9.1,100,'a');
 insert into cursaram values (1002,0001,to_date('04/2018','dd/yyyy'),6.5,85,'a');
 insert into cursaram values (1003,0001,to_date('02/2018','dd/yyyy'),4.2,45,'r');
-insert into cursaram values (1004,0002,to_date('01/2018','dd/yyyy'),1.1,22,'r');
+insert into cursaram values (1004,0003,to_date('01/2018','dd/yyyy'),1.1,22,'r');
+insert into cursaram values (1005,0003,to_date('01/2018','dd/yyyy'),7.5,75,'a');
+insert into cursaram values (1005,0004,to_date('01/2018','dd/yyyy'),8.0,80,'a');
 insert into cursaram values (1005,0003,to_date('03/2018','dd/yyyy'),10.0,95,'a');
+insert into cursaram values (1006,0022,to_date('01/2018','dd/yyyy'),8.5,90,'a');
+insert into cursaram values (1006,0023,to_date('01/2018','dd/yyyy'),9.1,100,'a');
+
 
 insert into cursaram values (2001,0001,to_date('03/2016','dd/yyyy'),7.6,100,'a');
 insert into cursaram values (2002,0001,to_date('04/2016','dd/yyyy'),6.6,90,'a');
@@ -653,9 +658,3 @@ begin
 	return 'JUMPED OK';
 end;
 /
-
-
-
-
-
-
