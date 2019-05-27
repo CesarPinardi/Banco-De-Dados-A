@@ -594,7 +594,7 @@ end;
 
 create or replace trigger retira before insert on cursaram for each row
 begin
-	for c_atual in (select * from cursam where :new.cod_disc_cursaram = cod_disc_cursam) loop
+	for c_atual in (select * from cursam where :new.cod_disc_cursaram = cod_disc_cursam and :new.ra_cursaram = ra_cursam) loop
 		if :new.cod_disc_cursaram = c_atual.cod_disc_cursam and :new.ra_cursaram = c_atual.ra_cursam then
 			delete from cursam where cod_disc_cursam = :new.cod_disc_cursaram and ra_cursam = :new.ra_cursaram;
 		else
