@@ -1,29 +1,24 @@
-create or replace procedure historico_escolar (ra number) as
+
+create or replace function aprov (raAluno in number, codDisc in number) 
+return number is
+aprovado number;
 begin
-for ra_busca in (select * from alunos)loop
-	if ra = ra_busca.ra and ra < 2000 then
-        for ra_busca_grad in (select * from alunos_grad)loop
-            if ra = ra_busca_grad.ra_g then
-                dbms_output.put_line('--------------------------------------');
-                dbms_output.put_line('Nome do aluno: '|| ra_busca.nome_aluno);
-                dbms_output.put_line('Media: '|| ra_busca_grad.cd);
-                dbms_output.put_line('--------------------------------------');
-            end if;
-        end loop;
-	else if ra = ra_busca.ra and ra >= 2000 then
-        for ra_busca_pos_grad in (select * from alunos_pos_grad)loop
-            if ra = ra_busca_pos_grad.ra_p_g then
-                dbms_output.put_line('--------------------------------------');
-                dbms_output.put_line('Nome do aluno: ' || ra_busca.nome_aluno);
-                dbms_output.put_line('Orientador: ' || ra_busca_pos_grad.orientador);
-                dbms_output.put_line('--------------------------------------');
-            end if;
-        end loop;
-		end if;
-	end if;
-end loop;
+	aprovado := 0;
+	--verificar se a disciplina tem pre_req
+
+	for i in (select * from pre_req where cod_disc_pre = codDisc) loop
+		for a in (select * from cursaram where ra_cursaram = raAluno and cod_disc_cursaram = i.cod_pre_req) loop --verifica ra
+				if a.nota >= 5.0 and a.freq >= 75 and a.status = 'a' then 
+					aprovado := 1;
+					return aprovado;
+				else 
+					aprovado := -1;
+					
+				end if;
+		end loop;		
+	end loop;
+	return aprovado;
 end;
 /
 
-exec historico_escolar(1001);
-exec historico_escolar(2001);
+select aprov(1003, 2) from dual;
